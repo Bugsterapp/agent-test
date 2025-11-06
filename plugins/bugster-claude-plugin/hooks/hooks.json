@@ -5,7 +5,7 @@
         "hooks": [
           {
             "type": "prompt",
-            "prompt": "IMPORTANT: You MUST run Bugster tests before stopping by using the /run-tests-mcp custom slash command AND ONLY if you have made changes to the code.\n\nRespond with JSON: {\"decision\": \"approve\" or \"block\", \"reason\": \"your explanation\"}",
+            "prompt": "IMPORTANT: You MUST run Bugster tests before stopping by using the /bugster-claude-plugin:run-tests custom slash command AND ONLY if you have made changes to the code.\n\nRespond with JSON: {\"decision\": \"approve\" or \"block\", \"reason\": \"your explanation\"}",
             "timeout": 30
           }
         ]
