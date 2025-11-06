@@ -1,7 +1,7 @@
 {
   "name": "bugster-claude-plugin",
   "version": "0.1.0",
-  "description": "Bugster Claude Plugin",
+  "description": "Plugin for integrating Bugster with Claude Code",
   "author": {
     "name": "Ignacio Solorzano",
     "email": "ignacio@bugster.dev",
