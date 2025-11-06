@@ -19,13 +19,9 @@
         "name": "Ignacio Solorzano",
         "url": "https://bugster.dev"
       },
-      "homepage": "https://bugster.dev",
-      "repository": "https://github.com/Bugsterapp/bugster-claude-plugin",
-      "license": "MIT",
-      "keywords": ["bugster", "claude", "code", "plugin"],
       "category": "testing",
-      "strict": false,
-      "agents": ["./agents/bugster-test-engineer.md"]
+      "homepage": "https://bugster.dev",
+      "keywords": ["bugster", "claude", "code", "plugin"]
     }
   ]
 }

@@ -8,11 +8,9 @@
     "url": "https://bugster.dev"
   },
   "homepage": "https://bugster.dev",
-  "repository": "https://github.com/bugsterapp/bugster-claude-plugin",
-  "license": "MIT",
   "keywords": ["bugster", "claude", "plugin"],
-  "commands": ["./config/commands/run-tests.md"],
-  "agents": "./config/agents/",
-  "hooks": "./config/hooks.json",
-  "mcpServers": "./mcp-config.json"
+  "commands": "./commands/",
+  "agents": "./agents/bugster-test-engineer.md",
+  "hooks": "./hooks/hooks.json",
+  "mcpServers": "./mcp.json"
 }
