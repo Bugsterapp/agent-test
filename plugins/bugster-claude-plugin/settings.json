@@ -1,7 +1,0 @@
-{
-  "permissions": {
-    "allow": ["mcp__bugster__run_tests"],
-    "deny": [],
-    "ask": []
-  }
-}
