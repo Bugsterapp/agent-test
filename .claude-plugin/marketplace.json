@@ -13,7 +13,7 @@
     {
       "name": "bugster-claude-plugin",
       "source": "./plugins/bugster-claude-plugin",
-      "description": "Claude Code + Bugster",
+      "description": "Bugster + Claude Code",
       "version": "0.1.0",
       "author": {
         "name": "Ignacio Solorzano",
