@@ -4,17 +4,16 @@
 
 ### Step 1: Add the Marketplace
 
-Add this marketplace to Claude Code:
-
-1. From GitHub
+Add this marketplace to Claude Code, either from GitHub:
 
 ```
 /plugin marketplace add git@github.com:Bugsterapp/bugster-claude-marketplace.git
 ```
 
-2. Locally
+or locally:
 
 ```
+git clone https://github.com/Bugsterapp/bugster-claude-marketplace.git
 /plugin marketplace add absolute/path/to/the/directory
 ```
 
