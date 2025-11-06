@@ -4,9 +4,16 @@
 
 Add this marketplace to Claude Code:
 
+1. From GitHub
+
 ```
-/plugin marketplace add bugster-claude-marketplace
+/plugin marketplace add git@github.com:Bugsterapp/bugster-claude-marketplace.git
 ```
+
+2. Locally
+
+```
+/plugin marketplace add absolute/path/to/the/directory
 
 This makes all plugins available for installation, but does not load any agents or tools into your context.
 
@@ -15,7 +22,10 @@ This makes all plugins available for installation, but does not load any agents 
 Browse available plugins:
 
 ```
-/plugin
+
+/plugin install bugster-claude-plugin@bugster-claude-marketplace
+
 ```
 
-Install the plugins you need. You’ll then need to restart Claude Code in order to use the new plugin.
+You’ll then need to restart Claude Code in order to use the new plugin.
+```

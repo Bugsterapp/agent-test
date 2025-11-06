@@ -4,7 +4,7 @@
       {
         "hooks": [
           {
-            "type": "command",
+            "type": "prompt",
             "prompt": "IMPORTANT: After ANY CODE CHANGE, you MUST run Bugster tests before stopping by using the /bugster-claude-plugin:run-tests custom slash command."
           }
         ]
