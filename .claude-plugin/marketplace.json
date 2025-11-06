@@ -11,7 +11,7 @@
   },
   "plugins": [
     {
-      "name": "Bugster's Claude Code Plugin",
+      "name": "bugster-claude-plugin",
       "source": "./plugins/bugster-claude-plugin",
       "description": "Claude Code + Bugster",
       "version": "0.1.0",
