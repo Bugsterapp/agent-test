@@ -1,0 +1,31 @@
+{
+  "name": "Bugster's Claude Code Marketplace",
+  "owner": {
+    "name": "Ignacio Solorzano",
+    "email": "ignacio@bugster.dev",
+    "url": "https://bugster.dev"
+  },
+  "metadata": {
+    "description": "Marketplace for Bugster's Claude Code plugins",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "Bugster's Claude Code Plugin",
+      "source": "./plugins/bugster-claude-plugin",
+      "description": "Claude Code + Bugster",
+      "version": "0.1.0",
+      "author": {
+        "name": "Ignacio Solorzano",
+        "url": "https://bugster.dev"
+      },
+      "homepage": "https://bugster.dev",
+      "repository": "https://github.com/Bugsterapp/bugster-claude-plugin",
+      "license": "MIT",
+      "keywords": ["bugster", "claude", "code", "plugin"],
+      "category": "testing",
+      "strict": false,
+      "agents": ["./agents/bugster-test-engineer.md"]
+    }
+  ]
+}

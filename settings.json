@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": ["mcp__bugster__run_tests"],
+    "deny": [],
+    "ask": []
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "IMPORTANT: If all tasks are complete and there are no errors, you MUST run Bugster tests before stopping by using the /run-tests custom slash command.\n\nRespond with JSON: {\"decision\": \"approve\" or \"block\", \"reason\": \"your explanation\"}",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
