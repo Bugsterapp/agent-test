@@ -1,4 +1,4 @@
-#⚡️ Bugster <> Claude Code
+# ⚡️ Bugster <> Claude Code
 
 ## Quick Start
 
