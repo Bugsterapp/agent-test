@@ -15,20 +15,17 @@ if [ "$stop_hook_active" = "true" ]; then
 fi
 
 # Capture the output
-OUTPUT=$(bugster run --browser=firefox 2>&1)
+OUTPUT=$(bugster run --headless --browser=firefox 2>&1)
 echo "$OUTPUT" >&2
-
-# Capture the exit code
-TEST_EXIT_CODE=$?
 
 if echo "$OUTPUT" | grep -qE "(100\.0% success|Summary:.*• 0 failed)"; then
     echo "✓ Bugster validation passed" >&2
     # Tests passed, allow normal continuation
-    echo '{"continue":true,"stopReason":"","suppressOutput":true}' >&2
+    echo '{"continue":true,"stopReason":"","suppressOutput":true}' >&0
     exit 2
 else
     echo "✗ Bugster validation failed" >&2
     # Tests failed, block with message
-    echo '{"continue":true,"stopReason":"","suppressOutput":true,"decision":"block","reason":"Bugster validation tests failed. Please review the test results above and fix any issues before proceeding."}' >&2
+    echo '{"continue":true,"stopReason":"","suppressOutput":true,"decision":"block","reason":"Bugster validation tests failed. Please review the test results above and fix any issues before proceeding."}' >&0
     exit 2
 fi
