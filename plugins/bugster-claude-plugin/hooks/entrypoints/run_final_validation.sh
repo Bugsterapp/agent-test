@@ -21,7 +21,7 @@ echo "$OUTPUT" >&2
 # Capture the exit code
 TEST_EXIT_CODE=$?
 
-if echo "$OUTPUT" | grep -q "All tests passed"; then
+if echo "$OUTPUT" | grep -qE "(100\.0% success|Summary:.*• 0 failed)"; then
     echo "✓ Bugster validation passed" >&2
     # Tests passed, allow normal continuation
     echo '{"continue":true,"stopReason":"","suppressOutput":true}' >&2
