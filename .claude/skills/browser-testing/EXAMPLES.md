@@ -2,6 +2,26 @@
 
 This document provides detailed examples of common browser testing tasks using the Bugster CLI tool.
 
+## ⚠️ Before Running Any Examples
+
+**CRITICAL: Check if `.bugster` directory exists in the project root before running any examples.**
+
+If the `.bugster` directory does not exist, you MUST run:
+
+```bash
+bugster init
+```
+
+This will:
+
+- Create the `.bugster/` directory structure
+- Prompt for API key configuration
+- Set up necessary project files
+
+**All examples below assume `.bugster` directory exists. If it doesn't, run `bugster init` first.**
+
+---
+
 ## Example 1: Generate and Run Complete Test Suite
 
 **User request**: "Generate tests for my entire application and run them"
@@ -323,6 +343,8 @@ This document provides detailed examples of common browser testing tasks using t
 ---
 
 ## Tips for Success
+
+- **ALWAYS check for `.bugster` directory first**: Before running any `bugster generate` or `bugster run` command, verify the `.bugster` directory exists. If it doesn't, run `bugster init`. This is **the most important step** and will prevent all initialization errors.
 
 - **Be specific with prompts**: "Test login with valid credentials and verify dashboard displays user profile data" is better than "test login". This is **extremely important** for accurate AI-powered test generation.
 

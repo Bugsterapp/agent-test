@@ -16,14 +16,25 @@ This skill uses the Bugster CLI to generate and run AI-powered tests for web app
 
 ## Setup Verification
 
-**IMPORTANT: Before using any Bugster commands, you MUST check setup.json in this directory.**
+**IMPORTANT: Before using any Bugster commands, you MUST perform these checks:**
 
 ### First-Time Setup Check
 
 1. **Read `setup.json`** (located in `.claude/skills/browser-testing/setup.json`)
 2. **Check `setupComplete` field**:
-   - If `true`: All prerequisites are met, proceed with Bugster commands
+   - If `true`: All prerequisites are met, proceed to Project Initialization Check
    - If `false`: Setup required - follow the steps below
+
+### Project Initialization Check
+
+**CRITICAL: Before running ANY `bugster generate` or `bugster run` commands, you MUST check if the project has been initialized:**
+
+1. **Check if `.bugster` directory exists** in the user's project root
+2. **If `.bugster` directory does NOT exist**:
+   - You MUST run `bugster init` first
+   - This creates necessary configuration files and project structure
+   - Without this, `bugster generate` and `bugster run` will fail
+3. **If `.bugster` directory exists**: Proceed with generate/run commands
 
 ### If Setup is Required (`setupComplete: false`)
 
@@ -36,25 +47,38 @@ curl -sSL https://bugster.dev/install.sh | bash
 # 2. Verify installation (REQUIRED)
 bugster --version
 
-# 3. Initialize Bugster in your project (REQUIRED)
-# Navigate to your project directory first
-cd /path/to/your/project
-bugster init
-# Follow prompts to configure API key and project settings
-
-# 4. If test succeeds, update setup.json
+# 3. If test succeeds, update setup.json
 # Set "installed" field to true
 # Set "setupComplete" to true
 ```
 
+### Initialize Project (REQUIRED Before First Use)
+
+**Every time you work with a new project**, check if `.bugster` directory exists:
+
+```bash
+# Check if .bugster directory exists in project root
+# If it doesn't exist, run:
+bugster init
+# Follow prompts to configure API key and project settings
+# This creates .bugster/ directory with necessary configuration
+```
+
+**The `.bugster` directory must exist before running `bugster generate` or `bugster run`.**
+
 ### Prerequisites Summary
 
-- ✅ Bugster CLI installed and available in PATH
+- ✅ Bugster CLI installed and available in PATH (`setupComplete: true` in setup.json)
 - ✅ Node.js 18+ installed on your system
-- ✅ Project initialized with `bugster init`
+- ✅ `.bugster` directory exists in project root (created by `bugster init`)
 - ✅ Bugster API key configured during init
 
-**DO NOT attempt to use Bugster commands if `setupComplete: false` in setup.json. Guide the user through setup first.**
+**CRITICAL WORKFLOW:**
+1. Check `setup.json` - if `setupComplete: false`, guide user through Bugster CLI installation
+2. Check for `.bugster` directory in project root - if missing, run `bugster init`
+3. Only then proceed with `bugster generate` or `bugster run` commands
+
+**DO NOT attempt to run `bugster generate` or `bugster run` if `.bugster` directory does not exist.**
 
 ## Available Commands
 
@@ -123,7 +147,7 @@ bugster run [path] [options]
 
 ## Best Practices
 
-1. **Initialize first**: Always run `bugster init` in your project directory before generating or running tests
+1. **Check for initialization**: ALWAYS verify `.bugster` directory exists before running any commands. If missing, run `bugster init` first
 2. **Use natural language**: Leverage `--prompt` options with clear, specific instructions for AI-powered testing
 3. **Optimize execution**: Use `--parallel` to speed up test runs, and `--limit` for quick validation
 4. **Version control**: Commit the `.bugster/` directory to maintain consistent test configurations across your team
@@ -176,7 +200,7 @@ bugster run --headless --parallel 10
 
 **Command not found**: Ensure Bugster CLI is installed and added to PATH. Run `curl -sSL https://bugster.dev/install.sh | bash` to install
 
-**Project not initialized**: Run `bugster init` in your project directory to set up configuration files
+**Project not initialized / `.bugster` directory missing**: Check if `.bugster` directory exists in project root. If not, run `bugster init` to set up configuration files
 
 **Authentication issues**: Verify your Bugster API key is configured correctly. Re-run `bugster init` to reconfigure
 

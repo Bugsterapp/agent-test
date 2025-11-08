@@ -11,11 +11,60 @@ The browser testing system consists of:
 - **Browser Automation**: Runs tests in real browser environments (Chromium, Firefox, WebKit)
 - **AI Test Generation**: Analyzes codebase to create comprehensive test scenarios
 
+## Prerequisites for All Commands
+
+**CRITICAL: Before running ANY Bugster command (`generate` or `run`):**
+
+1. Verify Bugster CLI is installed (check `setup.json` in `.claude/skills/browser-testing/`)
+2. **Check if `.bugster` directory exists in the project root**
+3. **If `.bugster` directory does NOT exist, run `bugster init` first**
+
+Without the `.bugster` directory, `generate` and `run` commands will fail.
+
+---
+
 ## CLI Command Reference
+
+### init
+
+Initialize Bugster in your project. **Must be run before any other Bugster commands.**
+
+**Usage**
+
+```bash
+bugster init
+```
+
+**When to use**:
+
+- When `.bugster` directory does not exist in project root
+- When setting up Bugster for the first time in a project
+- When reconfiguring Bugster settings
+
+**What it does**:
+
+- Creates `.bugster/` directory structure
+- Prompts for Bugster API key configuration
+- Sets up project-specific test configurations
+- Creates necessary files for test generation and execution
+
+**Example**:
+
+```bash
+# Check if .bugster exists first
+ls -la .bugster
+
+# If directory doesn't exist, initialize:
+bugster init
+```
+
+---
 
 ### generate
 
 Generate AI-powered test specifications by analyzing your codebase.
+
+**Prerequisites**: `.bugster` directory must exist (run `bugster init` if missing)
 
 **Usage**
 
@@ -51,6 +100,8 @@ bugster generate --page "pages/checkout.tsx" --prompt "Focus on error handling a
 ### run
 
 Execute Bugster test specifications in real browser environments.
+
+**Prerequisites**: `.bugster` directory must exist (run `bugster init` if missing)
 
 **Usage**
 
