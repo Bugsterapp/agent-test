@@ -1,27 +1,36 @@
 {
-  "name": "bugster-claude-marketplace",
+  "name": "browser-testing-tools",
   "owner": {
-    "name": "Ignacio Solorzano",
+    "name": "Bugster",
     "email": "ignacio@bugster.dev",
     "url": "https://bugster.dev"
   },
   "metadata": {
-    "description": "Marketplace for Bugster's Claude Code plugins",
-    "version": "0.1.0"
+    "description": "Tools for automated browser testing using natural language.",
+    "version": "0.0.1"
   },
   "plugins": [
     {
-      "name": "bugster-claude-plugin",
-      "source": "./plugins/bugster-claude-plugin",
-      "description": "Bugster + Claude Code",
-      "version": "0.1.0",
+      "name": "browser-testing",
+      "source": "./",
+      "description": "Automated browser testing using natural language. Use when the user asks to test web applications, validate UI behavior, check functionality across pages, run end-to-end tests, verify form submissions, test user workflows, or perform regression testing.",
+      "version": "0.0.1",
       "author": {
-        "name": "Ignacio Solorzano",
+        "name": "Bugster",
         "url": "https://bugster.dev"
       },
       "category": "testing",
       "homepage": "https://bugster.dev",
-      "keywords": ["bugster", "claude", "code", "plugin"]
+      "keywords": [
+        "browser",
+        "testing",
+        "e2e",
+        "automation",
+        "web-testing",
+        "qa"
+      ],
+      "strict": false,
+      "skills": ["./claude/skills/browser-testing"]
     }
   ]
 }

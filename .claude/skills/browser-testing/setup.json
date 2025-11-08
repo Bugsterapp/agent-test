@@ -1,0 +1,16 @@
+{
+  "setupComplete": false,
+  "prerequisites": {
+    "bugsterCli": {
+      "required": true,
+      "installed": false,
+      "description": "Bugster CLI installed and available in PATH"
+    }
+  },
+  "setupInstructions": [
+    "1. Run: curl -sSL https://bugster.dev/install.sh | bash",
+    "2. Verify installation: bugster --version",
+    "3. Update this setup.json file: set 'installed' to true and 'setupComplete' to true"
+  ],
+  "verifySetup": "Run 'bugster --version' from any directory to verify installation"
+}
