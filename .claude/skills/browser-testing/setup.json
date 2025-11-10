@@ -17,7 +17,7 @@
     "2. Verify installation: bugster --version",
     "3. Check if ~/.bugsterrc exists and contains a valid apiKey field",
     "4. If ~/.bugsterrc is missing or apiKey is not configured:",
-    "   - Ask user to provide their Bugster API key (available at https://bugster.dev/dashboard)",
+    "   - Ask user to provide their Bugster API key (available at https://bugster.dev)",
     "   - Create ~/.bugsterrc with: { \"apiKey\": \"user_provided_key_here\" }",
     "5. Update this setup.json file: set 'installed' to true, 'configured' to true, and 'setupComplete' to true"
   ],
