@@ -7,7 +7,7 @@ A skill for seamlessly enabling **[Claude Code](https://docs.claude.com/en/docs/
 On Claude Code, to add the marketplace, simply run:
 
 ```bash
-/plugin marketplace add https://github.com/Bugsterapp/agent-test.git
+/plugin marketplace add git@github.com:Bugsterapp/agent-test.git
 ```
 
 Then install the plugin:
