@@ -1,7 +1,7 @@
 ---
 name: Browser Testing
 
-description: Automate end-to-end testing of web applications using Bugster CLI. Use when the user asks to generate tests, run test suites, or perform automated browser testing. Triggers include "test that", "generate tests", "run tests", "execute tests", "test automation", "E2E tests", "end-to-end testing", "automated testing", "create test specs", "tests", "check". When executing commands, provide detailed and specific instructions.
+description: Automate end-to-end testing of web applications using Bugster CLI. Use when the user asks to generate tests, run test suites, or perform automated browser testing. Triggers include "test that", "generate tests", "run tests", "execute tests", "test automation", "E2E tests", "end-to-end testing", "automated testing", "create test specs", "tests", "check", "verify". When executing commands, provide detailed and specific instructions.
 
 allowed-tools: Bash
 ---
