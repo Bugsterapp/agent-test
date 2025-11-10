@@ -26,7 +26,7 @@ If the `.bugster` directory does not exist, you MUST initialize the project firs
 bugster init --api-key="<api_key>" --url="<url>" --user="<user>" --password="<password>"
 
 # Without login credentials (no login page):
-bugster init --api-key="<api_key>" --url="<url>"
+bugster init --api-key="<api_key>" --url="<url>" --no-credentials
 ```
 
 This will:

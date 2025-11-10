@@ -24,7 +24,7 @@
     "   - Application URL (e.g., http://localhost:3000)",
     "   - Login credentials if login page exists (username and password)",
     "   - Run: bugster init --api-key=<key> --url=<url> --user=<user> --password=<password>",
-    "   - Or without login: bugster init --api-key=<key> --url=<url>",
+    "   - Or without login: bugster init --api-key=<key> --url=<url> --no-credentials",
     "7. Update this setup.json file: set 'installed' to true, 'configured' to true, and 'setupComplete' to true"
   ],
   "verifySetup": "Run 'bugster --version' from any directory to verify installation. Check ~/.bugsterrc exists with valid apiKey. Check .bugster directory exists in project root."

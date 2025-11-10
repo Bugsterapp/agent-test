@@ -40,7 +40,7 @@ Initialize Bugster in your project. **Must be run before any other Bugster comma
 bugster init --api-key="<api_key>" --url="<url>" --user="<user>" --password="<password>"
 
 # Without login credentials (no login page):
-bugster init --api-key="<api_key>" --url="<url>"
+bugster init --api-key="<api_key>" --url="<url>" --no-credentials
 ```
 
 **Parameters**:
@@ -80,7 +80,7 @@ bugster init --api-key="<api_key>" --url="<url>"
 bugster init --api-key="$(cat ~/.bugsterrc | grep apiKey | cut -d'"' -f4)" --url="http://localhost:3000" --user="test@example.com" --password="password123"
 
 # Or without login:
-bugster init --api-key="$(cat ~/.bugsterrc | grep apiKey | cut -d'"' -f4)" --url="http://localhost:3000"
+bugster init --api-key="$(cat ~/.bugsterrc | grep apiKey | cut -d'"' -f4)" --url="http://localhost:3000" --no-credentials
 ```
 
 **This non-interactive approach ensures fast execution without manual prompts, ideal for automated workflows.**

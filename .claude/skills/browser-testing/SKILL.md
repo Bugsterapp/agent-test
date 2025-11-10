@@ -105,7 +105,7 @@ Once both `bugsterCli.installed` and `apiKey.configured` are `true` in `setup.js
 bugster init --api-key="$(cat ~/.bugsterrc | grep apiKey | cut -d'"' -f4)" --url="<user_provided_url>" --user="<user_provided_username>" --password="<user_provided_password>"
 
 # Without login credentials (no login page):
-bugster init --api-key="$(cat ~/.bugsterrc | grep apiKey | cut -d'"' -f4)" --url="<user_provided_url>"
+bugster init --api-key="$(cat ~/.bugsterrc | grep apiKey | cut -d'"' -f4)" --url="<user_provided_url> --no-credentials"
 ```
 
 **Alternative (if you already have the API key in a variable):**
@@ -115,7 +115,7 @@ bugster init --api-key="$(cat ~/.bugsterrc | grep apiKey | cut -d'"' -f4)" --url
 bugster init --api-key="<api_key>" --url="<url>" --user="<user>" --password="<password>"
 
 # Without login credentials:
-bugster init --api-key="<api_key>" --url="<url>"
+bugster init --api-key="<api_key>" --url="<url>" --no-credentials
 ```
 
 **This non-interactive approach ensures fast execution without manual prompts.**
@@ -143,7 +143,7 @@ Before running any Bugster commands, ensure all prerequisites are met:
    - Once all prerequisites are met, set `setupComplete: true`
 2. Check for `.bugster` directory in project root:
    - If missing, collect application URL and login credentials from user
-   - Run non-interactive `bugster init --api-key=<key> --url=<url> --user=<user> --password=<password>`
+   - Run non-interactive `bugster init --api-key=<key> --url=<url>` with `--user=<user> --password=<password>` if credentials were provided or with `--no-credentials` if they were not
 3. Only then proceed with `bugster generate` or `bugster run` commands
 
 **DO NOT attempt to run `bugster generate` or `bugster run` without completing all prerequisite checks.**
@@ -300,7 +300,7 @@ bugster run --headless --parallel 10
 1. Collect application URL from user (e.g., http://localhost:3000)
 2. Ask if login page exists and collect credentials if needed
 3. Run non-interactive: `bugster init --api-key=<key> --url=<url> --user=<user> --password=<password>`
-4. Or without login: `bugster init --api-key=<key> --url=<url>`
+4. Or without login: `bugster init --api-key=<key> --url=<url> --no-credentials`
 
 **Test failures**: Review detailed logs and screenshots in test output. Use `bugster run --limit 1` to debug individual tests
 
