@@ -25,61 +25,96 @@ This skill uses the Bugster CLI to generate and run AI-powered tests for web app
    - If `true`: All prerequisites are met, proceed to Project Initialization Check
    - If `false`: Setup required - follow the steps below
 
+### If Setup is Required (`setupComplete: false`)
+
+When `setupComplete` is `false`, check the `prerequisites` in `setup.json` and complete the following:
+
+#### 1. Install Bugster CLI (if `bugsterCli.installed: false`)
+
+```bash
+# Install Bugster CLI
+curl -sSL https://bugster.dev/install.sh | bash
+
+# Verify installation
+bugster --version
+
+# If successful, update setup.json: set prerequisites.bugsterCli.installed to true
+```
+
+#### 2. Configure API Key (if `apiKey.configured: false`)
+
+**CRITICAL: Check if `~/.bugsterrc` exists and contains a valid API key:**
+
+```bash
+# Check if ~/.bugsterrc exists
+cat ~/.bugsterrc
+```
+
+**If `~/.bugsterrc` does NOT exist or is missing the `apiKey` field:**
+
+1. **Ask the user to provide their Bugster API key**:
+   - Prompt: "I need your Bugster API key to continue. Please provide your API key (you can find it at https://bugster.dev/dashboard):"
+   - Wait for the user to provide the API key
+2. **Create `~/.bugsterrc` file** with the provided API key:
+   ```json
+   {
+     "apiKey": "user_provided_key_here"
+   }
+   ```
+3. **Verify the file was created successfully**
+4. **Update setup.json**: set `prerequisites.apiKey.configured` to `true`
+
+#### 3. Mark Setup Complete
+
+Once both `bugsterCli.installed` and `apiKey.configured` are `true` in `setup.json`, set `setupComplete` to `true`.
+
 ### Project Initialization Check
 
-**CRITICAL: Before running ANY `bugster generate` or `bugster run` commands, you MUST check if the project has been initialized:**
+**CRITICAL: After setup is complete, check if the project has been initialized:**
 
 1. **Check if `.bugster` directory exists** in the user's project root
 2. **If `.bugster` directory does NOT exist**:
    - You MUST run `bugster init` first
    - This creates necessary configuration files and project structure
+   - The API key from `~/.bugsterrc` will be used automatically
    - Without this, `bugster generate` and `bugster run` will fail
 3. **If `.bugster` directory exists**: Proceed with generate/run commands
 
-### If Setup is Required (`setupComplete: false`)
-
-Run these commands to install Bugster CLI:
-
-```bash
-# 1. Install Bugster CLI (REQUIRED)
-curl -sSL https://bugster.dev/install.sh | bash
-
-# 2. Verify installation (REQUIRED)
-bugster --version
-
-# 3. If test succeeds, update setup.json
-# Set "installed" field to true
-# Set "setupComplete" to true
-```
-
 ### Initialize Project (REQUIRED Before First Use)
 
-**Every time you work with a new project**, check if `.bugster` directory exists:
+**Every time you work with a new project**, after verifying setup is complete and API key is configured, check if `.bugster` directory exists:
 
 ```bash
 # Check if .bugster directory exists in project root
 # If it doesn't exist, run:
 bugster init
-# Follow prompts to configure API key and project settings
 # This creates .bugster/ directory with necessary configuration
+# The API key from ~/.bugsterrc will be used automatically
 ```
 
 **The `.bugster` directory must exist before running `bugster generate` or `bugster run`.**
 
 ### Prerequisites Summary
 
-- ✅ Bugster CLI installed and available in PATH (`setupComplete: true` in setup.json)
+Before running any Bugster commands, ensure all prerequisites are met:
+
+- ✅ Bugster CLI installed and available in PATH (`prerequisites.bugsterCli.installed: true` in setup.json)
+- ✅ Bugster API key configured in `~/.bugsterrc` (`prerequisites.apiKey.configured: true` in setup.json)
+- ✅ Setup marked as complete (`setupComplete: true` in setup.json)
 - ✅ Node.js 18+ installed on your system
 - ✅ `.bugster` directory exists in project root (created by `bugster init`)
-- ✅ Bugster API key configured during init
 
 **CRITICAL WORKFLOW:**
 
-1. Check `setup.json` - if `setupComplete: false`, guide user through Bugster CLI installation
+1. Check `setup.json`:
+   - If `setupComplete: false`, complete all prerequisites in setup.json
+   - If `bugsterCli.installed: false`, install Bugster CLI
+   - If `apiKey.configured: false`, check for `~/.bugsterrc` and ask user for API key if needed
+   - Once all prerequisites are met, set `setupComplete: true`
 2. Check for `.bugster` directory in project root - if missing, run `bugster init`
 3. Only then proceed with `bugster generate` or `bugster run` commands
 
-**DO NOT attempt to run `bugster generate` or `bugster run` if `.bugster` directory does not exist.**
+**DO NOT attempt to run `bugster generate` or `bugster run` without completing all prerequisite checks.**
 
 ## Available Commands
 
@@ -148,14 +183,16 @@ bugster run [path] [options]
 
 ## Best Practices
 
-1. **Check for initialization**: ALWAYS verify `.bugster` directory exists before running any commands. If missing, run `bugster init` first
-2. **Use natural language**: Leverage `--prompt` options with clear, specific instructions for AI-powered testing
-3. **Optimize execution**: Use `--parallel` to speed up test runs, and `--limit` for quick validation
-4. **Version control**: Commit the `.bugster/` directory to maintain consistent test configurations across your team
-5. **Target specific pages**: Use `--page` with `generate` to focus on critical user flows
-6. **Headless for CI/CD**: Always use `--headless` flag in continuous integration environments
-7. **Review outputs**: Check test results, logs, and screenshots to identify and address issues promptly
-8. **Iterate regularly**: Regenerate tests after significant code changes to keep test coverage current
+1. **Verify prerequisites**: ALWAYS check `setup.json` to ensure `setupComplete: true` before running any Bugster commands
+2. **Check API key first**: Verify `~/.bugsterrc` exists with a valid API key (`prerequisites.apiKey.configured: true`)
+3. **Check for initialization**: ALWAYS verify `.bugster` directory exists before running any commands. If missing, run `bugster init` first
+4. **Use natural language**: Leverage `--prompt` options with clear, specific instructions for AI-powered testing
+5. **Optimize execution**: Use `--parallel` to speed up test runs, and `--limit` for quick validation
+6. **Version control**: Commit the `.bugster/` directory to maintain consistent test configurations across your team (but NOT `~/.bugsterrc` which contains sensitive API keys)
+7. **Target specific pages**: Use `--page` with `generate` to focus on critical user flows
+8. **Headless for CI/CD**: Always use `--headless` flag in continuous integration environments
+9. **Review outputs**: Check test results, logs, and screenshots to identify and address issues promptly
+10. **Iterate regularly**: Regenerate tests after significant code changes to keep test coverage current
 
 ## Common Patterns
 
@@ -199,11 +236,15 @@ bugster run --headless --parallel 10
 
 ## Troubleshooting
 
-**Command not found**: Ensure Bugster CLI is installed and added to PATH. Run `curl -sSL https://bugster.dev/install.sh | bash` to install
+**Command not found**: Ensure Bugster CLI is installed and added to PATH. Check `setup.json` - if `prerequisites.bugsterCli.installed: false`, run `curl -sSL https://bugster.dev/install.sh | bash` to install
 
-**Project not initialized / `.bugster` directory missing**: Check if `.bugster` directory exists in project root. If not, run `bugster init` to set up configuration files
+**Authentication issues**: Verify your Bugster API key is configured correctly in `~/.bugsterrc`. Check `setup.json` - if `prerequisites.apiKey.configured: false`, you need to:
 
-**Authentication issues**: Verify your Bugster API key is configured correctly. Re-run `bugster init` to reconfigure
+1. Check if `~/.bugsterrc` exists and contains a valid `apiKey` field
+2. If missing, ask the user to provide their API key and create the file
+3. Update `setup.json` to set `prerequisites.apiKey.configured: true`
+
+**Project not initialized / `.bugster` directory missing**: Check if `.bugster` directory exists in project root. If not, run `bugster init` to set up configuration files (ensure API key is configured first)
 
 **Test failures**: Review detailed logs and screenshots in test output. Use `bugster run --limit 1` to debug individual tests
 

@@ -5,12 +5,21 @@
       "required": true,
       "installed": false,
       "description": "Bugster CLI installed and available in PATH"
+    },
+    "apiKey": {
+      "required": true,
+      "configured": false,
+      "description": "Bugster API key configured in ~/.bugsterrc file"
     }
   },
   "setupInstructions": [
     "1. Run: curl -sSL https://bugster.dev/install.sh | bash",
     "2. Verify installation: bugster --version",
-    "3. Update this setup.json file: set 'installed' to true and 'setupComplete' to true"
+    "3. Check if ~/.bugsterrc exists and contains a valid apiKey field",
+    "4. If ~/.bugsterrc is missing or apiKey is not configured:",
+    "   - Ask user to provide their Bugster API key (available at https://bugster.dev/dashboard)",
+    "   - Create ~/.bugsterrc with: { \"apiKey\": \"user_provided_key_here\" }",
+    "5. Update this setup.json file: set 'installed' to true, 'configured' to true, and 'setupComplete' to true"
   ],
-  "verifySetup": "Run 'bugster --version' from any directory to verify installation"
+  "verifySetup": "Run 'bugster --version' from any directory to verify installation. Check ~/.bugsterrc exists with valid apiKey."
 }
