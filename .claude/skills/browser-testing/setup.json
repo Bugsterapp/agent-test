@@ -19,7 +19,13 @@
     "4. If ~/.bugsterrc is missing or apiKey is not configured:",
     "   - Ask user to provide their Bugster API key (available at https://bugster.dev)",
     "   - Create ~/.bugsterrc with: { \"apiKey\": \"user_provided_key_here\" }",
-    "5. Update this setup.json file: set 'installed' to true, 'configured' to true, and 'setupComplete' to true"
+    "5. Check if .bugster directory exists in project root",
+    "6. If .bugster does not exist, collect from user:",
+    "   - Application URL (e.g., http://localhost:3000)",
+    "   - Login credentials if login page exists (username and password)",
+    "   - Run: bugster init --api-key=<key> --url=<url> --user=<user> --password=<password>",
+    "   - Or without login: bugster init --api-key=<key> --url=<url>",
+    "7. Update this setup.json file: set 'installed' to true, 'configured' to true, and 'setupComplete' to true"
   ],
-  "verifySetup": "Run 'bugster --version' from any directory to verify installation. Check ~/.bugsterrc exists with valid apiKey."
+  "verifySetup": "Run 'bugster --version' from any directory to verify installation. Check ~/.bugsterrc exists with valid apiKey. Check .bugster directory exists in project root."
 }

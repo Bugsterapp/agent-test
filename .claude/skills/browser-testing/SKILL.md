@@ -74,23 +74,51 @@ Once both `bugsterCli.installed` and `apiKey.configured` are `true` in `setup.js
 
 1. **Check if `.bugster` directory exists** in the user's project root
 2. **If `.bugster` directory does NOT exist**:
-   - You MUST run `bugster init` first
+   - You MUST run `bugster init` first (see steps below)
    - This creates necessary configuration files and project structure
-   - The API key from `~/.bugsterrc` will be used automatically
    - Without this, `bugster generate` and `bugster run` will fail
 3. **If `.bugster` directory exists**: Proceed with generate/run commands
 
 ### Initialize Project (REQUIRED Before First Use)
 
-**Every time you work with a new project**, after verifying setup is complete and API key is configured, check if `.bugster` directory exists:
+**Every time you work with a new project**, after verifying setup is complete and API key is configured, check if `.bugster` directory exists.
+
+**If `.bugster` directory does NOT exist, you must collect the following information from the user:**
+
+1. **Application URL**:
+   - Prompt: "What URL is your application running on? (e.g., http://localhost:3000, http://localhost:3001, etc.):"
+   - Wait for the user to provide the URL
+2. **Login Credentials** (if applicable):
+
+   - Ask: "Does your application have a login page that needs to be bypassed for testing?"
+   - If YES:
+     - Prompt: "Please provide the username/email for login:"
+     - Wait for the user to provide the username
+     - Prompt: "Please provide the password for login:"
+     - Wait for the user to provide the password
+   - If NO: Skip credential collection
+
+3. **Run non-interactive `bugster init`**:
 
 ```bash
-# Check if .bugster directory exists in project root
-# If it doesn't exist, run:
-bugster init
-# This creates .bugster/ directory with necessary configuration
-# The API key from ~/.bugsterrc will be used automatically
+# With login credentials:
+bugster init --api-key="$(cat ~/.bugsterrc | grep apiKey | cut -d'"' -f4)" --url="<user_provided_url>" --user="<user_provided_username>" --password="<user_provided_password>"
+
+# Without login credentials (no login page):
+bugster init --api-key="$(cat ~/.bugsterrc | grep apiKey | cut -d'"' -f4)" --url="<user_provided_url>"
 ```
+
+**Alternative (if you already have the API key in a variable):**
+
+```bash
+# With login credentials:
+bugster init --api-key="<api_key>" --url="<url>" --user="<user>" --password="<password>"
+
+# Without login credentials:
+bugster init --api-key="<api_key>" --url="<url>"
+```
+
+**This non-interactive approach ensures fast execution without manual prompts.**
 
 **The `.bugster` directory must exist before running `bugster generate` or `bugster run`.**
 
@@ -102,7 +130,9 @@ Before running any Bugster commands, ensure all prerequisites are met:
 - ✅ Bugster API key configured in `~/.bugsterrc` (`prerequisites.apiKey.configured: true` in setup.json)
 - ✅ Setup marked as complete (`setupComplete: true` in setup.json)
 - ✅ Node.js 18+ installed on your system
-- ✅ `.bugster` directory exists in project root (created by `bugster init`)
+- ✅ Application URL collected from user
+- ✅ Login credentials collected from user (if application has login page)
+- ✅ `.bugster` directory exists in project root (created by non-interactive `bugster init`)
 
 **CRITICAL WORKFLOW:**
 
@@ -111,7 +141,9 @@ Before running any Bugster commands, ensure all prerequisites are met:
    - If `bugsterCli.installed: false`, install Bugster CLI
    - If `apiKey.configured: false`, check for `~/.bugsterrc` and ask user for API key if needed
    - Once all prerequisites are met, set `setupComplete: true`
-2. Check for `.bugster` directory in project root - if missing, run `bugster init`
+2. Check for `.bugster` directory in project root:
+   - If missing, collect application URL and login credentials from user
+   - Run non-interactive `bugster init --api-key=<key> --url=<url> --user=<user> --password=<password>`
 3. Only then proceed with `bugster generate` or `bugster run` commands
 
 **DO NOT attempt to run `bugster generate` or `bugster run` without completing all prerequisite checks.**
@@ -185,14 +217,15 @@ bugster run [path] [options]
 
 1. **Verify prerequisites**: ALWAYS check `setup.json` to ensure `setupComplete: true` before running any Bugster commands
 2. **Check API key first**: Verify `~/.bugsterrc` exists with a valid API key (`prerequisites.apiKey.configured: true`)
-3. **Check for initialization**: ALWAYS verify `.bugster` directory exists before running any commands. If missing, run `bugster init` first
-4. **Use natural language**: Leverage `--prompt` options with clear, specific instructions for AI-powered testing
-5. **Optimize execution**: Use `--parallel` to speed up test runs, and `--limit` for quick validation
-6. **Version control**: Commit the `.bugster/` directory to maintain consistent test configurations across your team (but NOT `~/.bugsterrc` which contains sensitive API keys)
-7. **Target specific pages**: Use `--page` with `generate` to focus on critical user flows
-8. **Headless for CI/CD**: Always use `--headless` flag in continuous integration environments
-9. **Review outputs**: Check test results, logs, and screenshots to identify and address issues promptly
-10. **Iterate regularly**: Regenerate tests after significant code changes to keep test coverage current
+3. **Non-interactive initialization**: Collect application URL and login credentials upfront, then run `bugster init` with all flags for fast, non-interactive setup
+4. **Check for initialization**: ALWAYS verify `.bugster` directory exists before running any commands. If missing, collect required info and run non-interactive `bugster init`
+5. **Use natural language**: Leverage `--prompt` options with clear, specific instructions for AI-powered testing
+6. **Optimize execution**: Use `--parallel` to speed up test runs, and `--limit` for quick validation
+7. **Version control**: Commit the `.bugster/` directory to maintain consistent test configurations across your team (but NOT `~/.bugsterrc` which contains sensitive API keys)
+8. **Target specific pages**: Use `--page` with `generate` to focus on critical user flows
+9. **Headless for CI/CD**: Always use `--headless` flag in continuous integration environments
+10. **Review outputs**: Check test results, logs, and screenshots to identify and address issues promptly
+11. **Iterate regularly**: Regenerate tests after significant code changes to keep test coverage current
 
 ## Common Patterns
 
@@ -244,7 +277,12 @@ bugster run --headless --parallel 10
 2. If missing, ask the user to provide their API key and create the file
 3. Update `setup.json` to set `prerequisites.apiKey.configured: true`
 
-**Project not initialized / `.bugster` directory missing**: Check if `.bugster` directory exists in project root. If not, run `bugster init` to set up configuration files (ensure API key is configured first)
+**Project not initialized / `.bugster` directory missing**: Check if `.bugster` directory exists in project root. If not:
+
+1. Collect application URL from user (e.g., http://localhost:3000)
+2. Ask if login page exists and collect credentials if needed
+3. Run non-interactive: `bugster init --api-key=<key> --url=<url> --user=<user> --password=<password>`
+4. Or without login: `bugster init --api-key=<key> --url=<url>`
 
 **Test failures**: Review detailed logs and screenshots in test output. Use `bugster run --limit 1` to debug individual tests
 
