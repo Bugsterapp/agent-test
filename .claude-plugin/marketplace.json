@@ -31,7 +31,7 @@
       ],
       "strict": false,
       "skills": ["./.claude/skills/browser-testing"],
-      "hooks": ["./.claude/hooks/hooks.json"]
+      "hooks": "./.claude/hooks/hooks.json"
     }
   ]
 }
