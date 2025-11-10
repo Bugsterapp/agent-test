@@ -39,6 +39,31 @@ This will:
 
 ---
 
+## ⚠️ Before Running Tests
+
+**CRITICAL: Before executing `bugster run`, ALWAYS ask the user which type of test execution they want:**
+
+### Three Test Execution Options:
+
+1. **Run all test files** (default):
+
+   - Ask: "Do you want to run all test files?"
+   - Command: `bugster run [options]`
+   - Use case: Full test suite execution
+
+2. **Run specific test file**:
+
+   - Ask: "Do you want to run a specific test file? If yes, please provide the path (e.g., .bugster/tests/login-test.json):"
+   - Command: `bugster run --path <user_provided_path> [options]`
+   - Use case: Testing specific functionality or debugging
+
+3. **Run custom prompt test** (instant test):
+   - Ask: "Do you want to run a custom test? If yes, please describe what you want to test:"
+   - Command: `bugster run "<user_provided_prompt>" [options]`
+   - Use case: Quick ad-hoc testing without generating specs
+
+---
+
 ## Example 1: Generate and Run Complete Test Suite
 
 **User request**: "Generate tests for my entire application and run them"
@@ -363,13 +388,15 @@ This will:
 
 - **ALWAYS check for `.bugster` directory first**: Before running any `bugster generate` or `bugster run` command, verify the `.bugster` directory exists. If it doesn't, collect application URL and login credentials (if needed) from the user, then run non-interactive `bugster init` with all required flags. This is **the most important step** and will prevent all initialization errors.
 
+- **Ask before running tests**: ALWAYS ask the user which type of test execution they want (all files, specific file, or custom prompt) before running `bugster run`. This ensures the correct command is executed based on user needs.
+
 - **Be specific with prompts**: "Test login with valid credentials and verify dashboard displays user profile data" is better than "test login". This is **extremely important** for accurate AI-powered test generation.
 
 - **Use natural language descriptions**: Write prompts as if instructing a human tester about what to verify
 
 - **Generate before running**: For comprehensive coverage, always use `bugster generate` first to create test specifications
 
-- **Use instant tests for quick validation**: The `--prompt` option with `bugster run` is perfect for ad-hoc testing without generating specs
+- **Use custom prompt tests for quick validation**: Custom prompt tests (e.g., `bugster run "test description"`) are perfect for ad-hoc testing without generating specs
 
 - **Leverage parallel execution**: Use `--parallel` to speed up test runs, especially in CI/CD pipelines
 

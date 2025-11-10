@@ -136,10 +136,30 @@ Execute Bugster test specifications in real browser environments.
 bugster run [options]
 ```
 
+**CRITICAL: Before running `bugster run`, ALWAYS ask the user which type of test execution they want:**
+
+**Three Execution Modes:**
+
+1. **Run all test files** (default):
+
+   - Executes all tests in `.bugster/tests/` directory
+   - Command: `bugster run [options]`
+
+2. **Run specific test file**:
+
+   - Executes tests from a specific file
+   - Ask user: "Please provide the path to the test file (e.g., .bugster/tests/login-test.json):"
+   - Command: `bugster run --path <user_provided_path> [options]`
+
+3. **Run custom prompt test** (instant test):
+   - Executes a test from natural language description without generating specs
+   - Ask user: "Please describe the test you want to run:"
+   - Command: `bugster run "<user_provided_prompt>" [options]`
+
 **Parameters**:
 
-- `--path <file>` (string, optional): Path to specific test file to run. **Required when specifying a test file.**
-- `--prompt <text>` (string, optional): Run an instant test from natural language description (max 1000 characters)
+- `<text>` (string, optional): Run an instant test from natural language description (max 1000 characters)
+- `--path <file>` (string, optional): Path to specific test file to run
 - `--headless` (boolean, optional): Run tests in headless mode without visible browser UI
 - `--parallel <number>` (optional): Maximum number of concurrent tests to run (default: 3)
 - `--limit <number>` (optional): Maximum number of tests to execute
@@ -155,17 +175,20 @@ Test results including pass/fail status, screenshots, video recordings, and deta
 # Run all tests in .bugster/tests/
 bugster run
 
-# Run specific test file (requires --path flag)
-bugster run --path .bugster/tests/login-test.yaml
-
-# Run instant test from natural language
-bugster run "Test user login with valid credentials and verify dashboard loads"
-
-# Run tests in headless mode with parallel execution
+# Run all tests with options
 bugster run --headless --parallel 8
 
-# Run specific test with different browser
+# Run specific test file
+bugster run --path .bugster/tests/login-test.json
+
+# Run specific test with browser option
 bugster run --path .bugster/tests/checkout-test.json --browser firefox
+
+# Run custom prompt test
+bugster run "Test user login with valid credentials and verify dashboard loads"
+
+# Run custom prompt with options
+bugster run "Test checkout flow with valid payment" --headless
 
 # Run limited number of tests
 bugster run --limit 5
@@ -173,7 +196,8 @@ bugster run --limit 5
 
 **Important Notes**:
 
-- When specifying a test file path, you **must** use the `--path` flag
+- ALWAYS ask the user which execution mode they want before running
+- When specifying a test file path, use the `--path` flag
 - Without arguments, `bugster run` executes all tests in `.bugster/tests/` directory
-- Use `--prompt` for ad-hoc testing without generating specifications
+- Custom prompts are useful for ad-hoc testing without generating specifications
 - Screenshots and videos are saved in the test output directory

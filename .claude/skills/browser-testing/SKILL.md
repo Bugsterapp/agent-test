@@ -181,24 +181,41 @@ bugster run [path] [options]
 
 **When to use**: Executing test specifications, validating functionality, running test suites, performing automated testing.
 
+**CRITICAL: Before running `bugster run`, ALWAYS ask the user which type of test execution they want:**
+
+1. **Run all test files** (default):
+
+   - Ask: "Do you want to run all test files?"
+   - If YES: `bugster run [options]`
+
+2. **Run specific test file(s)**:
+
+   - Ask: "Do you want to run a specific test file?"
+   - If YES: "Please provide the path to the test file (e.g., .bugster/tests/login-test.json):"
+   - Use: `bugster run --path <user_provided_path> [options]`
+
+3. **Run custom prompt test** (instant test without generating specs):
+   - Ask: "Do you want to run a custom test from a natural language description?"
+   - If YES: "Please describe the test you want to run:"
+   - Use: `bugster run "<user_provided_prompt>" [options]`
+
 **Options**:
 
 - `--headless`: Run tests in headless mode without visible browser UI (ideal for CI/CD)
 - `--parallel <number>`: Maximum number of concurrent tests (default: 3)
 - `--limit <number>`: Maximum number of tests to execute
 - `--browser <name>`: Browser engine to use (`chromium`, `firefox`, or `webkit`)
-- `--prompt <text>`: Run an instant test from natural language description (max 1000 characters)
 
 **Example usage**:
 
-- `bugster run`
-- `bugster run --headless`
-- `bugster run --parallel 8`
-- `bugster run --limit 5`
-- `bugster run "Test user login with valid credentials and verify dashboard loads"`
-- `bugster run --path .bugster/tests/login-test.json --browser firefox`
+- `bugster run` (all test files)
+- `bugster run --headless --parallel 8` (all test files, headless mode)
+- `bugster run --path .bugster/tests/login-test.json` (specific file)
+- `bugster run --path .bugster/tests/checkout-test.json --browser firefox` (specific file with browser)
+- `bugster run "Test user login with valid credentials and verify dashboard loads"` (custom prompt)
+- `bugster run "Test checkout flow with valid payment details" --headless` (custom prompt, headless)
 
-**Important**: The `--prompt` option allows running instant tests without generating specifications first. This is useful for quick validation and ad-hoc testing.
+**Important**: Custom prompt tests allow running instant tests without generating specifications first. This is useful for quick validation and ad-hoc testing.
 
 **Output**: Test results including pass/fail status, screenshots, video recordings, and detailed logs
 
@@ -219,13 +236,14 @@ bugster run [path] [options]
 2. **Check API key first**: Verify `~/.bugsterrc` exists with a valid API key (`prerequisites.apiKey.configured: true`)
 3. **Non-interactive initialization**: Collect application URL and login credentials upfront, then run `bugster init` with all flags for fast, non-interactive setup
 4. **Check for initialization**: ALWAYS verify `.bugster` directory exists before running any commands. If missing, collect required info and run non-interactive `bugster init`
-5. **Use natural language**: Leverage `--prompt` options with clear, specific instructions for AI-powered testing
-6. **Optimize execution**: Use `--parallel` to speed up test runs, and `--limit` for quick validation
-7. **Version control**: Commit the `.bugster/` directory to maintain consistent test configurations across your team (but NOT `~/.bugsterrc` which contains sensitive API keys)
-8. **Target specific pages**: Use `--page` with `generate` to focus on critical user flows
-9. **Headless for CI/CD**: Always use `--headless` flag in continuous integration environments
-10. **Review outputs**: Check test results, logs, and screenshots to identify and address issues promptly
-11. **Iterate regularly**: Regenerate tests after significant code changes to keep test coverage current
+5. **Ask before running tests**: ALWAYS ask the user which type of test execution they want (all files, specific file, or custom prompt) before running `bugster run`
+6. **Use natural language**: Leverage custom prompts with clear, specific instructions for AI-powered testing
+7. **Optimize execution**: Use `--parallel` to speed up test runs, and `--limit` for quick validation
+8. **Version control**: Commit the `.bugster/` directory to maintain consistent test configurations across your team (but NOT `~/.bugsterrc` which contains sensitive API keys)
+9. **Target specific pages**: Use `--page` with `generate` to focus on critical user flows
+10. **Headless for CI/CD**: Always use `--headless` flag in continuous integration environments
+11. **Review outputs**: Check test results, logs, and screenshots to identify and address issues promptly
+12. **Iterate regularly**: Regenerate tests after significant code changes to keep test coverage current
 
 ## Common Patterns
 
