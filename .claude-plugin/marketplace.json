@@ -30,8 +30,7 @@
         "qa"
       ],
       "strict": false,
-      "skills": ["./.claude/skills/browser-testing"],
-      "hooks": "./.claude/hooks/hooks.json"
+      "skills": ["./.claude/skills/browser-testing"]
     }
   ]
 }
