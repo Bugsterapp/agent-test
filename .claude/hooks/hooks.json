@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pkill -f 'bugster run' || echo 'No bugster processes found'"
+          }
+        ]
+      }
+    ]
+  }
+}

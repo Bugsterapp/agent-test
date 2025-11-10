@@ -257,7 +257,7 @@ bugster run
 ### Generate focused tests for critical pages
 
 ```bash
-bugster generate --page "pages/checkout.tsx,pages/payment.tsx" --count 15 --prompt "Focus on payment processing and security"
+bugster generate --page "pages/checkout.tsx,pages/payment.tsx" --count 5 --prompt "Focus on payment processing and security"
 ```
 
 ### Run tests in CI/CD environment
