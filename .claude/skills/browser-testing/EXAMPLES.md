@@ -6,19 +6,36 @@ This document provides detailed examples of common browser testing tasks using t
 
 **CRITICAL: Check if `.bugster` directory exists in the project root before running any examples.**
 
-If the `.bugster` directory does not exist, you MUST run:
+If the `.bugster` directory does not exist, you MUST initialize the project first.
+
+### Project Initialization Steps:
+
+1. **Verify API key is configured** in `~/.bugsterrc` (if not, ask user for their API key from https://bugster.dev)
+
+2. **Collect required information from user:**
+
+   - Application URL (e.g., http://localhost:3000, http://localhost:3001)
+   - Ask: "Does your application have a login page that needs to be bypassed for testing?"
+   - If YES: Collect username and password
+   - If NO: Skip credentials
+
+3. **Run non-interactive `bugster init`:**
 
 ```bash
-bugster init
+# With login credentials:
+bugster init --api-key="<api_key>" --url="<url>" --user="<user>" --password="<password>"
+
+# Without login credentials (no login page):
+bugster init --api-key="<api_key>" --url="<url>"
 ```
 
 This will:
 
 - Create the `.bugster/` directory structure
-- Prompt for API key configuration
-- Set up necessary project files
+- Configure project settings with provided information
+- Set up necessary files for test generation and execution
 
-**All examples below assume `.bugster` directory exists. If it doesn't, run `bugster init` first.**
+**All examples below assume `.bugster` directory exists. If it doesn't, complete the initialization steps above first.**
 
 ---
 
@@ -54,7 +71,7 @@ This will:
 
 1. **Run** instant test with natural language prompt:
    ```bash
-   bugster run --prompt "Navigate to the login page, fill in credentials with valid user data, submit the form, and verify the dashboard loads successfully"
+   bugster run "Navigate to the login page, fill in credentials with valid user data, submit the form, and verify the dashboard loads successfully"
    ```
 
 **Expected result**: Immediate test execution with pass/fail status, screenshots, and detailed logs without needing to generate test specifications first.
@@ -156,7 +173,7 @@ This will:
 1. **Run** instant test for registration:
 
    ```bash
-   bugster run --prompt "Test user registration by filling out the signup form with valid data including email, password, confirm password, and acceptance of terms, then verify email confirmation message appears"
+   bugster run "Test user registration by filling out the signup form with valid data including email, password, confirm password, and acceptance of terms, then verify email confirmation message appears"
    ```
 
 2. **Alternative**: Generate dedicated registration tests:
@@ -293,7 +310,7 @@ This will:
 
 1. **Run** instant test for mobile navigation:
    ```bash
-   bugster run --prompt "Test mobile navigation by opening the hamburger menu, clicking through menu items, and verifying each section loads correctly on mobile viewport"
+   bugster run "Test mobile navigation by opening the hamburger menu, clicking through menu items, and verifying each section loads correctly on mobile viewport"
    ```
 
 **Expected result**: Validation of responsive navigation behavior on mobile devices.
@@ -308,7 +325,7 @@ This will:
 
 1. **Run** instant performance test:
    ```bash
-   bugster run --prompt "Test search performance by executing multiple rapid searches in sequence: search for 'laptop', then immediately search for 'phone', then 'tablet', verify all results load correctly without errors or race conditions"
+   bugster run "Test search performance by executing multiple rapid searches in sequence: search for 'laptop', then immediately search for 'phone', then 'tablet', verify all results load correctly without errors or race conditions"
    ```
 
 **Expected result**: Validation that the application handles rapid user interactions gracefully.
@@ -344,7 +361,7 @@ This will:
 
 ## Tips for Success
 
-- **ALWAYS check for `.bugster` directory first**: Before running any `bugster generate` or `bugster run` command, verify the `.bugster` directory exists. If it doesn't, run `bugster init`. This is **the most important step** and will prevent all initialization errors.
+- **ALWAYS check for `.bugster` directory first**: Before running any `bugster generate` or `bugster run` command, verify the `.bugster` directory exists. If it doesn't, collect application URL and login credentials (if needed) from the user, then run non-interactive `bugster init` with all required flags. This is **the most important step** and will prevent all initialization errors.
 
 - **Be specific with prompts**: "Test login with valid credentials and verify dashboard displays user profile data" is better than "test login". This is **extremely important** for accurate AI-powered test generation.
 

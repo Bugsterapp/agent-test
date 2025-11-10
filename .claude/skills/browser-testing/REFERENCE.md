@@ -16,8 +16,12 @@ The browser testing system consists of:
 **CRITICAL: Before running ANY Bugster command (`generate` or `run`):**
 
 1. Verify Bugster CLI is installed (check `setup.json` in `.claude/skills/browser-testing/`)
-2. **Check if `.bugster` directory exists in the project root**
-3. **If `.bugster` directory does NOT exist, run `bugster init` first**
+2. Verify API key is configured in `~/.bugsterrc` (check `setup.json`)
+3. **Check if `.bugster` directory exists in the project root**
+4. **If `.bugster` directory does NOT exist:**
+   - Collect application URL from user
+   - Ask if login page exists and collect credentials if needed
+   - Run non-interactive `bugster init` with all required flags
 
 Without the `.bugster` directory, `generate` and `run` commands will fail.
 
@@ -29,11 +33,22 @@ Without the `.bugster` directory, `generate` and `run` commands will fail.
 
 Initialize Bugster in your project. **Must be run before any other Bugster commands.**
 
-**Usage**
+**Usage (Non-Interactive - Recommended for Claude Code)**
 
 ```bash
-bugster init
+# With login credentials:
+bugster init --api-key="<api_key>" --url="<url>" --user="<user>" --password="<password>"
+
+# Without login credentials (no login page):
+bugster init --api-key="<api_key>" --url="<url>"
 ```
+
+**Parameters**:
+
+- `--api-key <string>` (required): Bugster API key (from ~/.bugsterrc or user input)
+- `--url <string>` (required): Application URL where the app is running (e.g., http://localhost:3000)
+- `--user <string>` (optional): Username/email for login (if application has login page)
+- `--password <string>` (optional): Password for login (if application has login page)
 
 **When to use**:
 
@@ -44,19 +59,31 @@ bugster init
 **What it does**:
 
 - Creates `.bugster/` directory structure
-- Prompts for Bugster API key configuration
+- Configures project with API key, URL, and optional login credentials
 - Sets up project-specific test configurations
 - Creates necessary files for test generation and execution
 
-**Example**:
+**Workflow for Non-Interactive Initialization**:
+
+1. **Check if API key exists** in `~/.bugsterrc`
+   - If missing, ask user to provide their API key
+2. **Collect from user**:
+
+   - Application URL (e.g., http://localhost:3000)
+   - Does application have login page? (yes/no)
+   - If yes: username and password
+
+3. **Run non-interactive init**:
 
 ```bash
-# Check if .bugster exists first
-ls -la .bugster
+# Extract API key from ~/.bugsterrc and run with credentials:
+bugster init --api-key="$(cat ~/.bugsterrc | grep apiKey | cut -d'"' -f4)" --url="http://localhost:3000" --user="test@example.com" --password="password123"
 
-# If directory doesn't exist, initialize:
-bugster init
+# Or without login:
+bugster init --api-key="$(cat ~/.bugsterrc | grep apiKey | cut -d'"' -f4)" --url="http://localhost:3000"
 ```
+
+**This non-interactive approach ensures fast execution without manual prompts, ideal for automated workflows.**
 
 ---
 
@@ -64,7 +91,7 @@ bugster init
 
 Generate AI-powered test specifications by analyzing your codebase.
 
-**Prerequisites**: `.bugster` directory must exist (run `bugster init` if missing)
+**Prerequisites**: `.bugster` directory must exist (run non-interactive `bugster init` with all required flags if missing)
 
 **Usage**
 
@@ -101,7 +128,7 @@ bugster generate --page "pages/checkout.tsx" --prompt "Focus on error handling a
 
 Execute Bugster test specifications in real browser environments.
 
-**Prerequisites**: `.bugster` directory must exist (run `bugster init` if missing)
+**Prerequisites**: `.bugster` directory must exist (run non-interactive `bugster init` with all required flags if missing)
 
 **Usage**
 
@@ -132,7 +159,7 @@ bugster run
 bugster run --path .bugster/tests/login-test.yaml
 
 # Run instant test from natural language
-bugster run --prompt "Test user login with valid credentials and verify dashboard loads"
+bugster run "Test user login with valid credentials and verify dashboard loads"
 
 # Run tests in headless mode with parallel execution
 bugster run --headless --parallel 8

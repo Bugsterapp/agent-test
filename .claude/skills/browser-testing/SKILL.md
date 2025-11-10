@@ -195,7 +195,7 @@ bugster run [path] [options]
 - `bugster run --headless`
 - `bugster run --parallel 8`
 - `bugster run --limit 5`
-- `bugster run --prompt "Test user login with valid credentials and verify dashboard loads"`
+- `bugster run "Test user login with valid credentials and verify dashboard loads"`
 - `bugster run --path .bugster/tests/login-test.json --browser firefox`
 
 **Important**: The `--prompt` option allows running instant tests without generating specifications first. This is useful for quick validation and ad-hoc testing.
@@ -209,7 +209,7 @@ bugster run [path] [options]
 1. Generate test specifications with `bugster generate`
 2. Execute tests with `bugster run`
 
-**Quick testing**: For rapid validation, use `bugster run --prompt` to execute tests directly without generating specifications.
+**Quick testing**: For rapid validation, use `bugster run <custom_prompt>` to execute tests directly without generating specifications.
 
 **Iterative testing**: After code changes, regenerate tests with `bugster generate` and validate with `bugster run`.
 
@@ -251,7 +251,7 @@ bugster run --headless --parallel 5
 ### Quick ad-hoc validation
 
 ```bash
-bugster run --prompt "Verify the contact form submits successfully and displays a confirmation message"
+bugster run "Verify the contact form submits successfully and displays a confirmation message"
 ```
 
 ### Debug specific test with browser visible
@@ -286,7 +286,7 @@ bugster run --headless --parallel 10
 
 **Test failures**: Review detailed logs and screenshots in test output. Use `bugster run --limit 1` to debug individual tests
 
-**No tests found**: Ensure you've run `bugster generate` first, or use `bugster run --prompt` for instant testing
+**No tests found**: Ensure you've run `bugster generate` first, or use `bugster run <custom_prompt>` for instant testing
 
 **Browser issues**: Try different browsers with `--browser` option or ensure required browsers are installed
 
