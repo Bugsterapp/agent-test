@@ -53,7 +53,7 @@ cat ~/.bugsterrc
 **If `~/.bugsterrc` does NOT exist or is missing the `apiKey` field:**
 
 1. **Ask the user to provide their Bugster API key**:
-   - Prompt: "I need your Bugster API key to continue. Please provide your API key (you can find it at https://bugster.dev/dashboard):"
+   - Prompt: "I need your Bugster API key to continue. Please provide your API key (you can find it at https://bugster.dev):"
    - Wait for the user to provide the API key
 2. **Create `~/.bugsterrc` file** with the provided API key:
    ```json
