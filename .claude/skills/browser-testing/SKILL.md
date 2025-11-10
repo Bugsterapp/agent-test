@@ -119,16 +119,16 @@ bugster run [path] [options]
 - `--headless`: Run tests in headless mode without visible browser UI (ideal for CI/CD)
 - `--parallel <number>`: Maximum number of concurrent tests (default: 3)
 - `--limit <number>`: Maximum number of tests to execute
-- `--browser <name>`: Browser engine to use (`chromium`, `firefox`, or `webkit`)
+- `--browser <name>`: Browser engine to use (`chromium`, `firefox`, or `webkit`) - **Default: firefox**
 - `--prompt <text>`: Run an instant test from natural language description (max 1000 characters)
 
 **Example usage**:
 
-- `bugster run`
-- `bugster run --headless`
-- `bugster run --parallel 8`
-- `bugster run --limit 5`
-- `bugster run --prompt "Test user login with valid credentials and verify dashboard loads"`
+- `bugster run --browser firefox`
+- `bugster run --browser firefox --headless`
+- `bugster run --browser firefox --parallel 8`
+- `bugster run --browser firefox --limit 5`
+- `bugster run --browser firefox --prompt "Test user login with valid credentials and verify dashboard loads"`
 - `bugster run --path .bugster/tests/login-test.json --browser firefox`
 
 **Important**: The `--prompt` option allows running instant tests without generating specifications first. This is useful for quick validation and ad-hoc testing.
@@ -149,13 +149,14 @@ bugster run [path] [options]
 ## Best Practices
 
 1. **Check for initialization**: ALWAYS verify `.bugster` directory exists before running any commands. If missing, run `bugster init` first
-2. **Use natural language**: Leverage `--prompt` options with clear, specific instructions for AI-powered testing
-3. **Optimize execution**: Use `--parallel` to speed up test runs, and `--limit` for quick validation
-4. **Version control**: Commit the `.bugster/` directory to maintain consistent test configurations across your team
-5. **Target specific pages**: Use `--page` with `generate` to focus on critical user flows
-6. **Headless for CI/CD**: Always use `--headless` flag in continuous integration environments
-7. **Review outputs**: Check test results, logs, and screenshots to identify and address issues promptly
-8. **Iterate regularly**: Regenerate tests after significant code changes to keep test coverage current
+2. **Use Firefox browser**: Always specify `--browser firefox` for consistent test execution across environments
+3. **Use natural language**: Leverage `--prompt` options with clear, specific instructions for AI-powered testing
+4. **Optimize execution**: Use `--parallel` to speed up test runs, and `--limit` for quick validation
+5. **Version control**: Commit the `.bugster/` directory to maintain consistent test configurations across your team
+6. **Target specific pages**: Use `--page` with `generate` to focus on critical user flows
+7. **Headless for CI/CD**: Always use `--headless` flag in continuous integration environments
+8. **Review outputs**: Check test results, logs, and screenshots to identify and address issues promptly
+9. **Iterate regularly**: Regenerate tests after significant code changes to keep test coverage current
 
 ## Common Patterns
 
@@ -163,7 +164,7 @@ bugster run [path] [options]
 
 ```bash
 bugster generate
-bugster run
+bugster run --browser firefox
 ```
 
 ### Generate focused tests for critical pages
@@ -175,26 +176,26 @@ bugster generate --page "pages/checkout.tsx,pages/payment.tsx" --count 15 --prom
 ### Run tests in CI/CD environment
 
 ```bash
-bugster run --headless --parallel 5
+bugster run --browser firefox --headless --parallel 5
 ```
 
 ### Quick ad-hoc validation
 
 ```bash
-bugster run --prompt "Verify the contact form submits successfully and displays a confirmation message"
+bugster run --browser firefox --prompt "Verify the contact form submits successfully and displays a confirmation message"
 ```
 
 ### Debug specific test with browser visible
 
 ```bash
-bugster run --path .bugster/tests/checkout-test.json --limit 1
+bugster run --browser firefox --path .bugster/tests/checkout-test.json --limit 1
 ```
 
 ### Generate comprehensive test suite
 
 ```bash
 bugster generate --count 20
-bugster run --headless --parallel 10
+bugster run --browser firefox --headless --parallel 10
 ```
 
 ## Troubleshooting
