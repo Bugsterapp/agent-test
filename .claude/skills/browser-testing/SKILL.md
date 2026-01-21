@@ -285,6 +285,109 @@ bugster generate --count 20
 bugster run --headless --parallel 10
 ```
 
+## Using Hooks for Specific Data
+
+When tests require **specific data** that must be fetched or computed before execution (such as database IDs, account references, or dynamic values), use **hooks** to define helper functions that run before the test.
+
+### Hook Structure
+
+Hooks allow you to:
+- Run helper functions before test execution (`before` hooks)
+- Pass arguments to helper functions
+- Store results in variables for use in test steps
+
+### Hook Configuration Format
+
+```yaml
+name: <test_name>
+page: <page_route>
+page_path: <path_to_page_file>
+hooks:
+  before:
+    - helper: <helper_function_name>
+      file_path: <path_to_helper_file>
+      args: [<arg1>, <arg2>, ...]
+      as: <variable_name>
+task: <test_description>
+steps:
+  - <step_1>
+  - <step_2>
+expected_result: <expected_outcome>
+```
+
+### Hook Fields
+
+| Field | Description | Required |
+|-------|-------------|----------|
+| `helper` | Name of the helper function to execute | Yes |
+| `file_path` | Path to the file containing the helper function | Yes |
+| `args` | Array of arguments to pass to the helper function | No |
+| `as` | Variable name to store the helper's return value | Yes |
+
+### Example: Test with Data Hooks
+
+```yaml
+name: User creates optional concept without attributes
+page: /conceptos
+page_path: apps/e2e/pages/dashboard/conceptsPage.ts
+hooks:
+  before:
+    - helper: getSchoolIdByName
+      file_path: apps/e2e/helpers/commons.ts
+      args: ["Instituto Internacional Carlos"]
+      as: schoolId
+    - helper: getBankAccountBySchoolName
+      file_path: apps/e2e/helpers/commons.ts
+      args: ["Instituto Internacional Carlos"]
+      as: bankAccount
+task: Verify user can create optional concept with IVA billing
+steps:
+  - Login as automata@getcome.com with pass
+  - Navigate to concepts page
+  - Click on "Create Concept" button
+  - Fill in concept details using {{schoolId}} and {{bankAccount}}
+  - Submit the form
+expected_result: Success message displays, concept visible in concepts table
+```
+
+### Multiple Before Hooks
+
+You can chain multiple `before` hooks that execute sequentially:
+
+```yaml
+hooks:
+  before:
+    - helper: createTestUser
+      file_path: apps/e2e/helpers/users.ts
+      args: ["test@example.com", "TestUser123"]
+      as: userId
+    - helper: assignRoleToUser
+      file_path: apps/e2e/helpers/roles.ts
+      args: ["{{userId}}", "admin"]
+      as: roleAssignment
+    - helper: getAuthToken
+      file_path: apps/e2e/helpers/auth.ts
+      args: ["{{userId}}"]
+      as: authToken
+```
+
+### Best Practices for Hooks
+
+1. **Reference existing helpers**: Always point `file_path` to actual helper files in your codebase
+2. **Use descriptive variable names**: The `as` field should clearly indicate what data is stored
+3. **Chain dependencies**: Later hooks can reference variables from earlier hooks using `{{variable_name}}`
+4. **Keep helpers focused**: Each helper should do one thing well
+5. **Document helper functions**: Ensure helper files have clear documentation for available functions
+
+### When to Use Hooks
+
+Use hooks when your test requires:
+- Database IDs that vary between environments
+- Dynamic data that must be fetched at runtime
+- Pre-test setup (creating test users, seeding data)
+- Authentication tokens or session data
+- Any data that cannot be hardcoded in the test specification
+
 ## Troubleshooting
 
 **Command not found**: Ensure Bugster CLI is installed and added to PATH. Check `setup.json` - if `prerequisites.bugsterCli.installed: false`, run `curl -sSL https://bugster.dev/install.sh | bash` to install
